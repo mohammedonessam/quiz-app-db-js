@@ -10,22 +10,79 @@ let quizApp=document.querySelector('.quiz-app');
 let resultDiv=document.querySelector('.show-result');
 let tryBtn=document.querySelector('.try-btn');
 let countDownElement=document.querySelector('.countdown');
+let settingsDom= document.querySelector('.settings');
+        let categoryDom=document.querySelector('#category-sort');
+        let nQuestionsDom=document.querySelector('#nQuestions');
+        let startBtnDom=document.querySelector('#start');
+        let difficultyDom=[
+            document.querySelector('#easy'),
+            document.querySelector('#medium'),
+            document.querySelector('#hard')];
+
 
 //set option
 let currentIndex=0;
 let rightAnswers=0;
 let countdownInterval;
 let duration= 90;
-// const url= `https://opentdb.com/api.php?amount=${amount}&category=${categoryID}&difficulty=${difficulty}`;
+let url;
 
-function  getQuestions(){
-    let  myRequest=  new XMLHttpRequest();
-    myRequest.onreadystatechange= async function(){
-        if(this.readyState===4&this.status===200){
-            let questionObject= await  JSON.parse(this.responseText);
-            let questionCount= await  questionObject.length;
-            let category= await questionObject[currentIndex].category;
-            let difficulty= await questionObject[currentIndex].difficulty;
+
+
+        
+        startBtnDom.addEventListener('click',startQuiz);
+        getAmount=()=>{
+            let amount=nQuestionsDom.value;
+            if (amount>0 && amount<=20) {
+                return amount
+            };
+        };
+        // function => get sort of difficulty by id from dom 
+        getDifficulty=()=>{
+            let difficulty=difficultyDom.filter(el=>el.checked);
+            if (difficulty.length===1) {
+               return difficulty[0].id; 
+            };
+        }; 
+
+        
+        
+        function    startQuiz(){
+                
+                    console.log("App Started");
+                    
+                    const amount=getAmount();
+                    const categoryID=categoryDom.value;
+                    const difficulty=getDifficulty();
+        
+                    url= `https://opentdb.com/api.php?amount=${amount}&category=${categoryID}&difficulty=${difficulty}`;
+                    fetch(url)
+                    .then( res=>res.json())
+                    .then(async data=>{
+                        result =await data.results;
+                        getQuestions(result);
+
+                        console.log(result);
+                    })
+                    if (amount>0&&difficulty) {
+                        settingsDom.style.display="none";
+                        quizApp.style.visibility="visible";
+                    } else {
+                        let div = document.createElement("div");
+                        div.innerHTML='Please Select Your Difficulty And Number Of Questions ';
+                        document.querySelector('.settings').appendChild(div)
+                    }
+            }   
+
+
+// let  result;
+
+async function  getQuestions(result){
+
+            let questionObject=  result;
+            let questionCount=   questionObject.length;
+            let category=  questionObject[currentIndex].category;
+            let difficulty=  questionObject[currentIndex].difficulty;
 
             console.log(questionObject);
 
@@ -67,11 +124,8 @@ function  getQuestions(){
                 showResult(questionCount);
             }
         }
-    }
-    myRequest.open('Get','../question.json',true);
-    myRequest.send();
-}
-getQuestions();
+
+
 
 function createBullets (num,category,difficulty) {
     countSpan.innerHTML= num;

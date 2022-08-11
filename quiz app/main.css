@@ -1,9 +1,33 @@
+body{
+    display: flex;
+    flex: auto;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+}
+.quiz-options{
+    display: flex;
+    flex: auto;
+    padding: 20px;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    border: 5px gray solid;
+    border-radius: 10px;
+    width: auto;
+    align-content: center;
+}
+.quiz-options #category-sort,.difficulty-sort,#nQuestions,button{
+    margin: 10px;
+}
 .quiz-app{
     display: flex;
     flex: auto;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    width: auto;
 }
 .quiz-info{
     display: flex;
@@ -13,7 +37,8 @@
     margin: 20px;
     border: 5px gray solid;
     border-radius: 10px;
-    width: 500px;
+    width: auto;
+    text-transform: capitalize;
 }
 .count,.category{
     margin: 20px;
@@ -28,6 +53,8 @@
 }
 .question-area h2{
     padding-left: 30px;
+    text-align: start;
+    width: auto;
 }
 .answers-area{
     background: ivory;
@@ -41,6 +68,7 @@
     margin: 10px;
     border: ivory solid 5px;
     padding: 5px;
+    text-align: start;
     border-radius: 10px;
     padding-left: 30px;
 }
@@ -58,8 +86,8 @@
     margin: 2px;
 }
 .bullets .spans span.on{
-    background-color:red;
-    border: blue solid 5px;
+    background-color:steelblue;
+    border: steelblue solid 5px;
 }
 .submit-btn{
     width: 200px;
@@ -78,7 +106,8 @@
     margin: 20px;
     border: 5px gray solid;
     border-radius: 10px;
-    width: 500px;
+    width: auto;
+    min-width: 80%;
 }
 .spans,.countdown{
     margin: 10px;
