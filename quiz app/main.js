@@ -7,6 +7,7 @@ let questionArea=document.querySelector('.question-area');
 let answersArea=document.querySelector('.answers-area');
 let submitBtn=document.querySelector('.submit-btn');
 let quizApp=document.querySelector('.quiz-app');
+let waitingDiv=document.querySelector('.waiting');
 let resultDiv=document.querySelector('.show-result');
 let tryBtn=document.querySelector('.try-btn');
 let countDownElement=document.querySelector('.countdown');
@@ -50,7 +51,7 @@ let url;
         function    startQuiz(){
                 
                     console.log("App Started");
-                    
+                    let result;
                     const amount=getAmount();
                     const categoryID=categoryDom.value;
                     const difficulty=getDifficulty();
@@ -60,13 +61,20 @@ let url;
                     .then( res=>res.json())
                     .then(async data=>{
                         result =await data.results;
+                        
+                        
+                        // console.log(result);
                         getQuestions(result);
-
-                        console.log(result);
                     })
-                    if (amount>0&&difficulty) {
+                    if (amount > 0 && difficulty) {
                         settingsDom.style.display="none";
-                        quizApp.style.visibility="visible";
+                        waitingDiv.style.visibility="visible";
+                        setInterval(() => {
+                            waitingDiv.remove();
+                            quizApp.style.visibility="visible";
+                        }, 2000); 
+                        
+                                 
                     } else {
                         let div = document.createElement("div");
                         div.innerHTML='Please Select Your Difficulty And Number Of Questions ';
@@ -84,7 +92,7 @@ async function  getQuestions(result){
             let category=  questionObject[currentIndex].category;
             let difficulty=  questionObject[currentIndex].difficulty;
 
-            console.log(questionObject);
+            // console.log(questionObject);
 
             //create Bullets + set questions count
             createBullets(questionCount,category,difficulty);

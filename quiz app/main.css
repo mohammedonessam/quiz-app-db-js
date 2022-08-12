@@ -112,3 +112,11 @@ body{
 .spans,.countdown{
     margin: 10px;
 }
+.waiting{
+    border: rgb(179, 175, 175) 5px solid;
+    border-radius: 20px;
+    margin-top: 20%;
+    padding: 20px;
+    width: auto;
+    min-width: 500px;
+}
